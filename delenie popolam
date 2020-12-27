@@ -6,7 +6,7 @@ float func(float x)
     return 2 * x * x - 12 * x;
 }
 
-float metod(float a, float b, float l)
+float metod(float a, float b, float l, float *func(float))
 {
     float x = (a + b) / 2;
     float L = fabs(b - a);
