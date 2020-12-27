@@ -6,7 +6,7 @@ float func(float x)
     return 2 * x * x - 12 * x;
 }
 
-float metod(float a, float b, float l, float *func(float))
+float metod(float a, float b, float l, float (*func)(float))
 {
     float x = (a + b) / 2;
     float L = fabs(b - a);
@@ -50,7 +50,7 @@ int main()
     float b = 10;
     float l = 1;
 
-    cout << "xmin= " << metod(a, b, l) << "\n f(xmin)= " << func(metod(a, b, l));
+    cout << "xmin= " << metod(a, b, l, func) << "\n f(xmin)= " << func(metod(a, b, l, func));
     return 0;
 }
 
