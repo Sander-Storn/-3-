@@ -1,0 +1,72 @@
+#include <iostream>
+using namespace std;
+
+// Задаём функцию
+float f (float x) 
+    {
+    	return (2*x*x-12*x); 
+    }
+
+float fib (int n)  //Числа Фибоначчи
+    {
+        if(n < 1) return 0; //F(0)=0
+        if(n == 1) return 1; //F(1)=1
+        return fib(n-1) + fib(n - 2); // F(n) = F(n-1) + F(n-2)
+    }
+    
+int poiskN (float a, float b, float l) //Находим n-количесто вычислений функций
+    {
+        int n=1;
+        while (fib(n) < (b-a)/l) 
+            {
+                n++;
+            }
+        return n;
+    }
+
+float metod(float a, float b, float eps, float (*f)(float))
+    {
+        // Положим l == e - длина конечного интервала и константа различимости
+        // Можно задавать l отдельно
+        int n=poiskN(a,b,eps); 
+
+        float   y = a + fib(n-2) / fib(n) * (b - a), // Новая левая граница
+	            z = a + fib(n-1) / fib(n) * (b - a); // Новая правая граница
+	        
+	    for (int k = 0; k < n ; k++) // Прогоняем сам метод n раз
+    	    {
+        		if (f(y) <= f(z))
+            		{
+            			b = z;
+            			z = y;
+            			y = a + fib(n - k - 3) / fib(n - k - 1) * (b - a);
+                    }
+        		else
+            		{
+            			a = y;
+            			y = z;
+            			z = a + fib(n - k - 2) / fib(n - k - 1) * (b - a);
+            		}
+        
+        		// Условие выхода
+        		if (k == n - 3)
+            		{
+            			y = (a+b)/2;
+            			z = y+eps;
+            
+            			if (f(y) <= f(z)) b = z;
+            			else a = y;
+            			return ((a + b) / 2);
+            		}
+    	    }
+    }
+
+int main()
+    {
+        float   a=0,
+                b=10,
+                eps=0.01;
+        cout << "x=" << metod(a,b,eps,f) << "\n" <<"f(x)= " << f(metod(a,b,eps,f)) << endl;
+     return 0;
+    }
+
