@@ -1,0 +1,45 @@
+#include <iostream>
+using namespace std;
+
+float func(float x)
+{
+    return 2 * x * x - 12 * x;
+}
+
+float metod(float a, float b, float l, float(*func)(float))
+{
+    float y, z, L;
+    y = a + (((3 - sqrt(5)) / 2) * (b - a));
+    z = a + b - y;
+    L = fabs(a - b);
+    while (L > l)
+    {
+        if (func(y) > func(z))
+        {
+            a = y;
+            y = z;
+            z = a + b - z;
+        }
+        else
+        {
+            b = z;
+            z = y;
+            y = a + b - y;
+        };
+        L = fabs(a - b);
+    };
+
+    return (a + b) / 2;
+}
+
+int main()
+{
+    float a = 0;
+    float b = 10;
+    float l = 1;
+
+    cout << "xmin = " << metod(a, b, l, func) << "\nf(xmin) = " << func(metod(a, b, l, func));
+    
+    return 0;
+}
+
